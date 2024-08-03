@@ -10,9 +10,8 @@ import { Flight } from '../shared/classes/flight';
   styleUrl: './flight-button.component.sass'
 })
 export class FlightButtonComponent {
-  flight: Flight;
+  @Input()
+  flight!: Flight;
 
-  constructor() {
-    this.flight = new Flight();
-  }
+  constructor() { }
 }

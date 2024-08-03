@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Aircraft } from '../shared/classes/aircraft';
 import { CommonModule } from '@angular/common';
+import { Aircraft } from '../shared/classes/aircraft';
 
 @Component({
   selector: 'app-aircraft-button',
@@ -10,9 +10,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './aircraft-button.component.sass'
 })
 export class AircraftButtonComponent {
-  @Input() aircraft: Aircraft;
+  @Input()
+  aircraft!: Aircraft;
 
   constructor() {
-    this.aircraft = new Aircraft();
   }
 }

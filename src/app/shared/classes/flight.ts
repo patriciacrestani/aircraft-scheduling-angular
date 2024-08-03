@@ -1,4 +1,5 @@
 export class Flight {
+    id: number;
     ident: string;
     departuretime: number;
     arrivaltime: number;
@@ -7,7 +8,8 @@ export class Flight {
     origin: string;
     destination: string;
 
-    constructor(ident?: string, departuretime?: number, arrivaltime?: number, origin?: string, destination?: string) {
+    constructor(id?: number, ident?: string, departuretime?: number, arrivaltime?: number, origin?: string, destination?: string) {
+        this.id = (id ? id : 0);
         this.ident = (ident ? ident : "");
         this.departuretime = (departuretime ? departuretime : 0);
         this.arrivaltime = (arrivaltime ? arrivaltime : 0);

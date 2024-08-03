@@ -1,11 +1,29 @@
 <main class="main">
   <div class="content">
-    <app-side-list class="marginLeft">
-      <app-aircraft-button></app-aircraft-button>
-    </app-side-list>
+    <div>
+      <h2>Aircrafts</h2>
+      <ul class="sideList">
+        <li class="sideListItem" *ngFor="let aircraft of aircrafts">
+          <app-aircraft-button
+            [aircraft]="aircraft"
+          ></app-aircraft-button>
+        </li>
+      </ul>
+    </div>
 
-    <app-side-list class="marginRight">
-      <app-flight-button></app-flight-button>
-    </app-side-list>
+    <app-rotation
+      [aircraft]="selectedAircraft"
+    ></app-rotation>
+
+    <div>
+      <h2>Flights</h2>
+      <ul class="sideList">
+        <li class="sideListItem" *ngFor="let flight of flights">
+          <app-flight-button
+            [flight]="flight"
+          ></app-flight-button>
+        </li>
+      </ul>
+    </div>
   </div>
 </main>

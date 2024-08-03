@@ -1,17 +1,82 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { SideListComponent } from "./side-list/side-list.component";
 import { AircraftButtonComponent } from './aircraft-button/aircraft-button.component';
 import { FlightButtonComponent } from './flight-button/flight-button.component';
+import { FlightService } from './shared/services/flight.service';
+import { HttpClientModule } from '@angular/common/http';
+import { AircraftService } from './shared/services/aircraft.service';
+import { Aircraft } from './shared/classes/aircraft';
+import { Flight } from './shared/classes/flight';
+import { RotationComponent } from './rotation/rotation.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SideListComponent, AircraftButtonComponent, FlightButtonComponent],
+  imports: [CommonModule, RouterOutlet, HttpClientModule, AircraftButtonComponent, FlightButtonComponent, RotationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass'
 })
 export class AppComponent {
-  title = 'aircraft-scheduling-angular';
+  aircrafts: Aircraft[] = [];
+  flights: Flight[] = [];
+  selectedAircraft!: Aircraft;
+  
+  constructor(
+    private flightService: FlightService,
+    private aircraftService: AircraftService,
+  ) {
+    this.getFlightList();
+    this.getAircraftList();
+  }
+
+  getAircraftList() {
+    let count = -1;
+    this.aircraftService.getAircrafts().subscribe(
+      (response: any[]) => {
+        let aircraftList: Aircraft[] = response.map(r => {
+          count++;
+          return<Aircraft> {
+            id: r.id ? r.id : count,
+            ident: r.ident,
+            type: r.type,
+            economySeats: r.economySeats,
+            base: r.base,
+            utilisation: r.utilisation
+          }
+        });
+        console.log(aircraftList);
+        this.aircrafts = aircraftList;
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  getFlightList() {
+    let count = -1;
+    this.flightService.getFlights().subscribe(
+      (response: any[]) => {
+        let flightList: Flight[] = response.map(r => {
+          count++;
+          return<Flight> {
+            id: r.id ? r.id : count,
+            ident: r.indent,
+            departuretime: r.departuretime,
+            arrivaltime: r.arrivaltime,
+            readable_departure: r.readable_departure,
+            readable_arrival: r.readable_arrival,
+            origin: r.origin,
+            destination: r.destination
+          }
+        });
+        console.log(flightList);
+        this.flights = flightList;
+      },
+      (error) => {
+
+      }
+    );
+  }
 }
