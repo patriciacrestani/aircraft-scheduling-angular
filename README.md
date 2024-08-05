@@ -1,27 +1,24 @@
-# AircraftSchedulingAngular
+# Aircraft Scheduling
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10.
+This is a web page project that aims to manually schedule the use of aircrafts on an airline's routes for the next day. This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10.
 
-## Development server
+## About
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The app shows a list of all our aircrafts to choose from and a list of all the flights the airline plan to operate that day.
+The purpose of the app is to allow the user to view and edit the daily rotation for each aircraft.
 
-## Code scaffolding
+The app lets the user edit the rotation freely but enforces the following rules:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- All aircrafts must be on the ground at midnight.
+- The minimum time between the end of a flight and the beginning of the next one is 20 minutes.
+- Aircrafts cannot "teleport" and cannot move without operating a flight.
 
-## Build
+As per aviation practice, all times are UTC (GMT), the app makes no use of local time.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+The app must display for each aircraft its utilisation in percent.
 
-## Running unit tests
+For the selected aircraft, a horizontal bar shows the aircraft timeline in a period of 24 hours, scheduled service in green, turnaround time in purple, idle time in grey.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Usage
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Run `npm install` followed by `ng serve` for a dev server of this application. Navigate to `http://localhost:4200/` on yout browser to open the dev server.
