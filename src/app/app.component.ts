@@ -36,14 +36,14 @@ export class AppComponent {
       (response: any[]) => {
         let aircraftList: Aircraft[] = response.map(r => {
           count++;
-          return<Aircraft> {
-            id: r.id ? r.id : count,
-            ident: r.ident,
-            type: r.type,
-            economySeats: r.economySeats,
-            base: r.base,
-            utilisation: r.utilisation
-          }
+          return new Aircraft(
+            r.id ? r.id : count,
+            r.ident,
+            r.type,
+            r.economySeats,
+            r.base,
+            r.utilisation
+          )
         });
         console.log(aircraftList);
         this.aircrafts = aircraftList;
@@ -60,16 +60,16 @@ export class AppComponent {
       (response: any[]) => {
         let flightList: Flight[] = response.map(r => {
           count++;
-          return<Flight> {
-            id: r.id ? r.id : count,
-            ident: r.indent,
-            departuretime: r.departuretime,
-            arrivaltime: r.arrivaltime,
-            readable_departure: r.readable_departure,
-            readable_arrival: r.readable_arrival,
-            origin: r.origin,
-            destination: r.destination
-          }
+          return new Flight(
+            r.id ? r.id : count,
+            r.indent,
+            r.departuretime,
+            r.arrivaltime,
+            r.origin,
+            r.destination,
+            r.readable_departure,
+            r.readable_arrival
+          )
         });
         console.log(flightList);
         this.flights = flightList;
@@ -92,8 +92,31 @@ export class AppComponent {
     });
   }
 
-  setSelectedAircraft(aircraft: any) {
+  setSelectedAircraft(aircraft: Aircraft) {
     this.desselectOtherAircrafts(aircraft.id);
     this.selectedAircraft = aircraft;
+    this.selectedAircraft = new Aircraft(
+      aircraft.id,
+      aircraft.ident,
+      aircraft.type,
+      aircraft.economySeats, 
+      aircraft.base, 
+      aircraft.flights, 
+      true
+    )
+    console.log(aircraft);
+    console.log(this.selectedAircraft);
+  }
+
+  addFlightToSelectedAircraft(flight: Flight) {
+    if(!this.selectedAircraft) {
+      return;
+    }
+
+    if(this.selectedAircraft.checkFlightAlreadyAddedToRotation(flight.id)) {
+      return;
+    }
+
+    this.selectedAircraft.addFlightToRotation(flight);
   }
 }

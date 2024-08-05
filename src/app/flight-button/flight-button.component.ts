@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Flight } from '../shared/classes/flight';
 
 @Component({
@@ -10,8 +10,14 @@ import { Flight } from '../shared/classes/flight';
   styleUrl: './flight-button.component.sass'
 })
 export class FlightButtonComponent {
-  @Input()
-  flight!: Flight;
+  @Output() addFlight = new EventEmitter<Flight>();
+
+  @Input() flight!: Flight;
 
   constructor() { }
+
+  addFlightToAircraftRotation() {
+    console.log(this.flight);
+    this.addFlight.emit(this.flight);
+  }
 }

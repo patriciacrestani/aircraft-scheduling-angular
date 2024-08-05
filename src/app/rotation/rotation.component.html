@@ -1,7 +1,11 @@
 <h2>{{ tomorrow.getDate() }}{{ getDay() }} {{ tomorrow | date:"LLLL" }} {{ tomorrow | date:"yyyy" }}</h2>
+
 <h3>{{ tomorrow | date:"EEEE" }}</h3>
+
 <h4 *ngIf="showNoAircraftSelected()">No aircraft selected</h4>
+
 <h4 *ngIf="!showNoAircraftSelected()">Rotation {{ aircraft.ident }}</h4>
+
 <ul class="mainList" [ngClass]="{noAircraftSelected: (showNoAircraftSelected() || showNoFlightsForAircraft())}">
     <ng-container *ngIf="showNoAircraftSelected()">
         <p class="mainListWarning">Select an aircraft to proceed</p>
@@ -13,7 +17,37 @@
 
     <ng-container *ngIf="showFlightsForAircraft()">
         <li class="mainListItem" *ngFor="let flight of aircraft.flights">
-          
+            <button class="mainListItemDrag"><i class="fa-solid fa-bars"></i></button>
+
+            <div class="mainListItemFlightInfo">
+                <span class="mainListItemFlightNumber"><strong>Flight {{ flight.ident }}</strong></span>
+
+                <div class="mainListItemFlightContainer">
+                    <div class="mainListItemFlightDetails">
+                        <span class="mainListItemFlightOrigin">{{ flight.origin }}</span>
+                        <span class="mainListItemFlighttime">
+                            <i class="fa-solid fa-plane-departure origin"></i>
+                            {{ flight.readable_departure }}
+                        </span>
+                    </div>
+                    
+                    <span class="mainListItemFlightDuration">{{ flight.readable_duration }}</span>
+
+                    <div class="mainListItemFlightDetails">
+                        <span class="mainListItemFlightDestination">{{ flight.destination }}</span>
+                        <span class="mainListItemFlighttime">
+                            {{ flight.readable_arrival }}
+                            <i class="fa-solid fa-plane-arrival destination"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mainListItemButtons">
+                <button title="Remove flight from rotation" class="mainListItemButtonRemove">
+                    <i class="fa-regular fa-circle-xmark"></i>
+                </button>
+            </div>
         </li>
     </ng-container>
 </ul>

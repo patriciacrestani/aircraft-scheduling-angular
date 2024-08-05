@@ -7,42 +7,40 @@ export class Flight {
     readable_arrival: string;
     origin: string;
     destination: string;
+    duration: number;
+    readable_duration: string;
 
-    constructor(id?: number, ident?: string, departuretime?: number, arrivaltime?: number, origin?: string, destination?: string) {
+    constructor(id?: number, ident?: string, departuretime?: number, arrivaltime?: number, origin?: string, destination?: string, readable_departure?: string, readable_arrival?: string) {
         this.id = (id ? id : 0);
         this.ident = (ident ? ident : "");
         this.departuretime = (departuretime ? departuretime : 0);
         this.arrivaltime = (arrivaltime ? arrivaltime : 0);
         this.origin = (origin ? origin : "");
         this.destination = (destination ? destination : "");
-        this.readable_departure = "";
-        this.readable_arrival = "";
+        this.readable_departure = (readable_departure ? readable_departure : "");
+        this.readable_arrival = (readable_arrival ? readable_arrival : "");
+        this.duration = 0;
+        this.readable_duration = "";
+        this.setFlightDuration();
     }
 
-    getFlightDuration(): number {
-        return (this.arrivaltime - this.departuretime);
-    }
+    setFlightDuration() {
+        this.duration = (this.arrivaltime - this.departuretime);
+        
+        let hourDuration = this.duration / 3600;
 
-    setReadableTimes() {
-        this.setReadableDeparture();
-        this.setReadableArrival();
-    }
+        this.readable_duration = this.readable_duration.concat(
+            `${Math.trunc(hourDuration).toString()} ${(Math.trunc(hourDuration) == 1) ? "hour" : "hours"}`
+        );
 
-    setReadableDeparture() {
-        let hourDeparture = this.departuretime / 3600;
-        this.readable_departure.concat(Math.trunc(hourDeparture).toString());
-        this.readable_departure.concat(":");
+        let minuteDuration = (hourDuration % 1) * 60;
+        
+        if(minuteDuration == 0) {
+            return;
+        }
 
-        let minuteDeparture = (hourDeparture % 1) * 60;
-        this.readable_departure.concat(Math.round(minuteDeparture).toString());
-    }
-
-    setReadableArrival() {
-        let hourArrival = this.arrivaltime / 3600;
-        this.readable_arrival.concat(Math.trunc(hourArrival).toString());
-        this.readable_arrival.concat(":");
-
-        let minuteArrival = (hourArrival % 1) * 60;
-        this.readable_arrival.concat(Math.round(minuteArrival).toString());
+        this.readable_duration = this.readable_duration.concat(
+            ` and ${Math.round(minuteDuration).toString()} minutes`
+        );
     }
 }

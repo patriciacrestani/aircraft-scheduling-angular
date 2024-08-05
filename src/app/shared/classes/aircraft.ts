@@ -21,6 +21,43 @@ export class Aircraft {
         this.selected = false;
     }
 
+    // public map(data) {
+    //     if(!data) {
+    //         return;
+    //     }
+
+    //     Object.keys(data).forEach((key: string) => {
+    //         this[key] = data[key];
+    //     })
+    // }
+
+    public hasFlights(): boolean {
+        return (this.flights && this.flights.length > 0);
+    }
+
+    public checkFlightAlreadyAddedToRotation(flightId: number): boolean {
+        if(!this.hasFlights()) {
+            return false;
+        }
+
+        let returnValue: boolean = false;
+
+        this.flights.forEach(flight => {
+            if(flight.id == flightId) {
+                returnValue = true;
+            }
+        });
+
+        return returnValue;
+    }
+
+    public addFlightToRotation(flight: Flight) {
+        if(!this.flights) {
+            this.flights = [];
+        }
+        this.flights.push(flight);
+    }
+
     getTotalFlightsTime(): number {
         if(!this.flights || this.flights.length <= 0) {
             return 0;
@@ -29,7 +66,7 @@ export class Aircraft {
         let flightTime: number = 0;
 
         this.flights.forEach(flight => {
-            flightTime += flight.getFlightDuration();
+            flightTime += flight.duration;
         });
 
         return flightTime;

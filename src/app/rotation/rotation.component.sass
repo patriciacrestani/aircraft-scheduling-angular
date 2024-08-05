@@ -10,12 +10,62 @@
     overflow-y: auto
     @include scrollbar()
 
-.mainListItem
-    border-bottom: 1px solid #9496a1
-
 .noAircraftSelected
     display: flex
 
 .mainListWarning
     text-align: center
     margin: auto
+
+.mainListItem
+    border-bottom: 1px solid #9496a1
+    display: flex
+
+.mainListItemDrag
+    width: 50px
+
+.mainListItemFlightInfo
+    padding: 15px 10px
+    width: -webkit-fill-available
+    display: block
+    text-align: left
+
+.mainListItemFlightContainer
+    display: flex
+    margin-top: 10px
+
+.mainListItemFlightDetails
+    display: flex
+    flex-direction: column
+
+.mainListItemFlightDuration
+    width: -webkit-fill-available
+    text-align: center
+    border-bottom: 1px solid black
+    margin-left: 15px
+    margin-right: 15px
+    font-size: 12px
+    height: fit-content
+
+.mainListItemFlightOrigin
+    text-align: right
+
+.mainListItemFlighttime
+    display: flex
+    margin-top: 7px
+    .origin
+        margin-right: 10px
+    .destination
+        margin-left: 10px
+
+.mainListItemButtons
+    width: 50px
+    margin: auto
+    .mainListItemButtonRemove
+        border: none
+        color: red
+        background-color: transparent
+        font-size: 16px
+        &:hover
+            color: darkred
+            cursor: pointer
