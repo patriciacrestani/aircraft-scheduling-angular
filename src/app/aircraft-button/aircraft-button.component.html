@@ -1,5 +1,9 @@
-<button class="aircraftButton">
+<button 
+    class="aircraftButton" 
+    (click)="selectAircraft()"
+    [ngClass]="{selected: aircraft.selected}"
+>
     <i class="fa-solid fa-plane-up aircraftButtonIcon"></i>
     <span class="aircraftButtonIdent">{{ aircraft.ident }}</span>
-    <span class="aircraftButtonPercent"> {{aircraft.utilisation }}%</span>
+    <span class="aircraftButtonPercent"> {{ aircraft.utilisation ? aircraft.utilisation : "0" }}%</span>
 </button>

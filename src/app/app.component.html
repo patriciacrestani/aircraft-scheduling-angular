@@ -6,6 +6,7 @@
         <li class="sideListItem" *ngFor="let aircraft of aircrafts">
           <app-aircraft-button
             [aircraft]="aircraft"
+            (selectedAircraft)="setSelectedAircraft($event)"
           ></app-aircraft-button>
         </li>
       </ul>

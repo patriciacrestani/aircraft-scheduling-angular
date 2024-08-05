@@ -19,6 +19,10 @@ export class Flight {
         this.readable_arrival = "";
     }
 
+    getFlightDuration(): number {
+        return (this.arrivaltime - this.departuretime);
+    }
+
     setReadableTimes() {
         this.setReadableDeparture();
         this.setReadableArrival();

@@ -1,14 +1,19 @@
 <h2>{{ tomorrow.getDate() }}{{ getDay() }} {{ tomorrow | date:"LLLL" }} {{ tomorrow | date:"yyyy" }}</h2>
 <h3>{{ tomorrow | date:"EEEE" }}</h3>
-<h4 *ngIf="aircraft">Rotation {{ aircraft.ident }}</h4>
-<ul class="mainList" [ngClass]="{noAircraftSelected: !aircraft}">
-    <ng-container *ngIf="!aircraft; else aircraftSelected">
+<h4 *ngIf="showNoAircraftSelected()">No aircraft selected</h4>
+<h4 *ngIf="!showNoAircraftSelected()">Rotation {{ aircraft.ident }}</h4>
+<ul class="mainList" [ngClass]="{noAircraftSelected: (showNoAircraftSelected() || showNoFlightsForAircraft())}">
+    <ng-container *ngIf="showNoAircraftSelected()">
         <p class="mainListWarning">Select an aircraft to proceed</p>
     </ng-container>
+    
+    <ng-container *ngIf="showNoFlightsForAircraft()">
+        <p class="mainListWarning">No flights have been set for this aircraft</p>
+    </ng-container>
 
-    <ng-template #aircraftSelected>
+    <ng-container *ngIf="showFlightsForAircraft()">
         <li class="mainListItem" *ngFor="let flight of aircraft.flights">
           
         </li>
-    </ng-template>
+    </ng-container>
 </ul>

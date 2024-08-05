@@ -31,4 +31,16 @@ export class RotationComponent {
         return "th";
     }
   }
+
+  showNoAircraftSelected(): boolean {
+    return (!this.aircraft);
+  }
+
+  showNoFlightsForAircraft(): boolean {
+    return (this.aircraft && (!this.aircraft.flights || this.aircraft.flights.length <= 0));
+  }
+
+  showFlightsForAircraft(): boolean {
+    return (this.aircraft && this.aircraft.flights && this.aircraft.flights.length > 0);
+  }
 }

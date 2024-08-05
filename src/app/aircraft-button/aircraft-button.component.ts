@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Aircraft } from '../shared/classes/aircraft';
 
@@ -10,9 +10,14 @@ import { Aircraft } from '../shared/classes/aircraft';
   styleUrl: './aircraft-button.component.sass'
 })
 export class AircraftButtonComponent {
-  @Input()
-  aircraft!: Aircraft;
+  @Output() selectedAircraft = new EventEmitter<Aircraft>();
+  
+  @Input() aircraft!: Aircraft;
 
-  constructor() {
+  constructor() { }
+
+  selectAircraft() {
+    this.aircraft.selected = true;
+    this.selectedAircraft.emit(this.aircraft);
   }
 }

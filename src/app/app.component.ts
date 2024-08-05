@@ -79,4 +79,21 @@ export class AppComponent {
       }
     );
   }
+
+  desselectOtherAircrafts(selectedId: number){
+    if(!this.aircrafts || this.aircrafts.length <= 0) {
+      return;
+    }
+
+    this.aircrafts.forEach(aircraft => {
+      if(aircraft.id != selectedId) {
+        aircraft.selected = false;
+      }
+    });
+  }
+
+  setSelectedAircraft(aircraft: any) {
+    this.desselectOtherAircrafts(aircraft.id);
+    this.selectedAircraft = aircraft;
+  }
 }
