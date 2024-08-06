@@ -17,8 +17,6 @@
 
     <ng-container *ngIf="showFlightsForAircraft()">
         <li class="mainListItem" *ngFor="let flight of aircraft.flights">
-            <button class="mainListItemDrag"><i class="fa-solid fa-bars"></i></button>
-
             <div class="mainListItemFlightInfo">
                 <span class="mainListItemFlightNumber"><strong>Flight {{ flight.ident }}</strong></span>
 
@@ -44,7 +42,7 @@
             </div>
 
             <div class="mainListItemButtons">
-                <button title="Remove flight from rotation" class="mainListItemButtonRemove">
+                <button title="Remove flight from rotation" class="mainListItemButtonRemove" *ngIf="showRemoveButton(flight)" (click)="removeFlightFromRotation()">
                     <i class="fa-regular fa-circle-xmark"></i>
                 </button>
             </div>

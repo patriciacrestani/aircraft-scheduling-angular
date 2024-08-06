@@ -119,4 +119,12 @@ export class AppComponent {
 
     this.selectedAircraft.addFlightToRotation(flight);
   }
+
+  removeFlightFromRotation() {
+    if(!this.selectedAircraft || !this.selectedAircraft.hasFlights()) {
+      return;
+    }
+
+    this.selectedAircraft.removeFlightFromRotation();
+  }
 }

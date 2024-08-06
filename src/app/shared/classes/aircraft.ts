@@ -31,6 +31,14 @@ export class Aircraft {
     //     })
     // }
 
+    get lastFlightInRotation(): Flight | void {
+        if(!this.hasFlights()) {
+            return;
+        }
+
+        return this.flights[this.flights.length - 1];
+    }
+
     public hasFlights(): boolean {
         return (this.flights && this.flights.length > 0);
     }
@@ -56,6 +64,13 @@ export class Aircraft {
             this.flights = [];
         }
         this.flights.push(flight);
+    }
+
+    public removeFlightFromRotation() {
+        if(!this.flights) {
+            this.flights = [];
+        }
+        this.flights.pop();
     }
 
     getTotalFlightsTime(): number {

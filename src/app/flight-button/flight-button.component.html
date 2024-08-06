@@ -1,12 +1,16 @@
-<button class="flightButton" (click)="addFlightToAircraftRotation()">
+<button class="flightButton" (click)="addFlightToAircraftRotation()" [disabled]="disableSelection()">
     <span class="flightButtonIdent">{{ flight.ident }}</span>
     <span class="flightButtonOrigin"> {{flight.origin }}</span>
     <span class="flightButtonDestination"> {{flight.destination }}</span>
     <span class="flightButtonDeparture"> {{flight.readable_departure }}</span>
     <span class="flightButtonArrival"> {{flight.readable_arrival }}</span>
     
-    <div class="tooltip" *ngIf="false">
+    <!-- <div class="tooltip" *ngIf="false">
         <i class="fa-solid fa-calendar-check"></i>
         <span class="tooltiptext">Tooltip text</span>
+    </div> -->
+
+    <div class="flightButtonIcons">
+        <!-- <i class="fa-solid fa-star" title="Best choice to add to the rotation" *ngIf="showRecommendedFlight()"></i> -->
     </div>
 </button>
