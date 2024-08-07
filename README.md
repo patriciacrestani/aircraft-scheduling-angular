@@ -9,7 +9,7 @@ The purpose of the app is to allow the user to view and edit the daily rotation 
 
 The app lets the user edit the rotation freely but enforces the following rules:
 
-- All aircrafts must be on the ground at midnight.
+- All aircrafts must be on the ground by midnight.
 - The minimum time between the end of a flight and the beginning of the next one is 20 minutes.
 - Aircrafts cannot "teleport" and cannot move without operating a flight.
 
@@ -19,6 +19,23 @@ The app must display for each aircraft its utilisation in percent.
 
 For the selected aircraft, a horizontal bar shows the aircraft timeline in a period of 24 hours, scheduled service in green, turnaround time in purple, idle time in grey.
 
+## Features
+
+Some features were added for better navigation:
+
+- Save schedule in local storage
+- Restart schedule
+- Delete last flight from rotation
+
+However, there are still aspects in which the application can improve, such as:
+
+- Make it responsive for mobile
+- Add option to filter flights
+- Improve aircraft timeline visualization
+
 ## Usage
 
-Run `npm install` followed by `ng serve` for a dev server of this application. Navigate to `http://localhost:4200/` on yout browser to open the dev server.
+1. Clone this repository
+2. Run `npm install` to install all packages for this application
+3. Run `ng serve` for a dev server of this application
+4. Navigate to `http://localhost:4200/` on yout browser to open the dev server
