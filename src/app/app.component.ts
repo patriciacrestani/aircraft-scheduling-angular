@@ -9,6 +9,7 @@ import { AircraftService } from './shared/services/aircraft.service';
 import { Aircraft } from './shared/classes/aircraft';
 import { Flight } from './shared/classes/flight';
 import { RotationComponent } from './rotation/rotation.component';
+import { LocalStorageService } from './shared/services/local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -25,13 +26,20 @@ export class AppComponent {
   constructor(
     private flightService: FlightService,
     private aircraftService: AircraftService,
+    private localStorageService: LocalStorageService,
   ) {
+    this.initialize();
+  }
+
+  initialize() {
     this.getFlightList();
     this.getAircraftList();
   }
 
   getAircraftList() {
     let count = -1;
+    this.aircrafts = [];
+    this.selectedAircraft = null;
     this.aircraftService.getAircrafts().subscribe(
       (response: any[]) => {
         let aircraftList: Aircraft[] = response.map(r => {
@@ -42,11 +50,10 @@ export class AppComponent {
             r.type,
             r.economySeats,
             r.base,
-            r.utilisation
           )
         });
-        console.log(aircraftList);
         this.aircrafts = aircraftList;
+        this.getRotationLocalStorage();
       },
       (error) => {
 
@@ -55,14 +62,16 @@ export class AppComponent {
   }
 
   getFlightList() {
-    let count = -1;
+    let count: number = -1;
+    let ident: number = 100;
+    this.flights = [];
     this.flightService.getFlights().subscribe(
       (response: any[]) => {
         let flightList: Flight[] = response.map(r => {
           count++;
           return new Flight(
             r.id ? r.id : count,
-            r.indent,
+            r.indent ? r.indent : `FL${ident++}`,
             r.departuretime,
             r.arrivaltime,
             r.origin,
@@ -71,7 +80,6 @@ export class AppComponent {
             r.readable_arrival
           )
         });
-        console.log(flightList);
         this.flights = flightList;
       },
       (error) => {
@@ -102,10 +110,41 @@ export class AppComponent {
       aircraft.economySeats, 
       aircraft.base, 
       aircraft.flights, 
-      true
-    )
-    console.log(aircraft);
-    console.log(this.selectedAircraft);
+      true,
+      aircraft.utilisation
+    );
+  }
+
+  updateAircraft() {
+    this.selectedAircraft = new Aircraft(
+      this.selectedAircraft.id,
+      this.selectedAircraft.ident,
+      this.selectedAircraft.type,
+      this.selectedAircraft.economySeats, 
+      this.selectedAircraft.base, 
+      this.selectedAircraft.flights, 
+      this.selectedAircraft.selected,
+      this.selectedAircraft.utilisation
+    );
+    let aircraftIndex = this.aircrafts.findIndex(aircraft => aircraft.id == this.selectedAircraft.id);
+    if(aircraftIndex != -1) {
+      this.aircrafts[aircraftIndex].flights = this.selectedAircraft.flights;
+      this.aircrafts[aircraftIndex].utilisation = this.selectedAircraft.utilisation;
+    }
+  }
+
+  addFlightBackToList(flight: Flight) {
+    let flightIndex = this.flights.findIndex(f => f.id == flight.id);
+    if(flightIndex != -1) {
+      this.flights[flightIndex].selected = false;
+    }
+  }
+
+  removeFlightFromList(flight: Flight) {
+    let flightIndex = this.flights.findIndex(f => f.id == flight.id);
+    if(flightIndex != -1) {
+      this.flights[flightIndex].selected = true;
+    }
   }
 
   addFlightToSelectedAircraft(flight: Flight) {
@@ -113,18 +152,48 @@ export class AppComponent {
       return;
     }
 
-    if(this.selectedAircraft.checkFlightAlreadyAddedToRotation(flight.id)) {
-      return;
-    }
-
     this.selectedAircraft.addFlightToRotation(flight);
+    this.removeFlightFromList(flight);
+    this.updateAircraft();
   }
 
   removeFlightFromRotation() {
-    if(!this.selectedAircraft || !this.selectedAircraft.hasFlights()) {
+    if(!this.selectedAircraft || !this.selectedAircraft.hasFlights() || !this.selectedAircraft.lastFlightInRotation) {
       return;
     }
 
+    this.addFlightBackToList(this.selectedAircraft.lastFlightInRotation);
     this.selectedAircraft.removeFlightFromRotation();
+    this.updateAircraft();
+  }
+
+  getLocalStorage() {
+    return this.localStorageService.getSchedule();
+  }
+
+  saveLocalStorage() {
+    this.localStorageService.saveSchedule(this.aircrafts);
+  }
+
+  clearLocalStorage() {
+    this.localStorageService.removeSchedule();
+    this.initialize();
+  }
+
+  getRotationLocalStorage() {
+    let rotations: any[] = this.getLocalStorage();
+
+    if(!rotations || rotations.length <= 0) {
+      return;
+    }
+    rotations.map(r => {
+      let aircraftIndex = this.aircrafts.findIndex(aircraft => aircraft.id == r.id);
+      if(aircraftIndex != -1) {
+        this.aircrafts[aircraftIndex].flights = r.flights;
+        this.aircrafts[aircraftIndex].flights.forEach(f => {
+          this.removeFlightFromList(f);
+        });
+      }
+    });
   }
 }

@@ -5,5 +5,5 @@
 >
     <i class="fa-solid fa-plane-up aircraftButtonIcon"></i>
     <span class="aircraftButtonIdent">{{ aircraft.ident }}</span>
-    <span class="aircraftButtonPercent"> {{ aircraft.utilisation ? aircraft.utilisation : "0" }}%</span>
+    <span class="aircraftButtonPercent"> {{ (aircraft.utilisation > 0) ? aircraft.utilisation : "0" }}%</span>
 </button>

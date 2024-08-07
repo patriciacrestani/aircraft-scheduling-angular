@@ -1,3 +1,4 @@
+import { Constants } from "./constants";
 import { Flight } from "./flight";
 
 export class Aircraft {
@@ -10,26 +11,17 @@ export class Aircraft {
     flights: Flight[];
     selected: boolean;
 
-    constructor(id?: number, ident?: string, type?: string, economySeats?: number, base?: string, flights?: Flight[], selected?: boolean) {
+    constructor(id?: number, ident?: string, type?: string, economySeats?: number, base?: string, flights?: Flight[], selected?: boolean, utilisation?: number) {
         this.id = (id ? id : 0);
         this.ident = (ident ? ident : "");
         this.type = (type ? type : "");
         this.economySeats = (economySeats ? economySeats : 0);
         this.base = (base ? base : "");
-        this.utilisation = 0;
-        this.flights = [];
+        this.flights = (flights ? flights : []);
         this.selected = false;
+        this.utilisation = 0;
+        this.calcUtilisation();
     }
-
-    // public map(data) {
-    //     if(!data) {
-    //         return;
-    //     }
-
-    //     Object.keys(data).forEach((key: string) => {
-    //         this[key] = data[key];
-    //     })
-    // }
 
     get lastFlightInRotation(): Flight | void {
         if(!this.hasFlights()) {
@@ -60,10 +52,16 @@ export class Aircraft {
     }
 
     public addFlightToRotation(flight: Flight) {
+        if(this.checkFlightAlreadyAddedToRotation(flight.id)) {
+            return;
+        }
+
         if(!this.flights) {
             this.flights = [];
         }
+        
         this.flights.push(flight);
+        this.calcUtilisation();
     }
 
     public removeFlightFromRotation() {
@@ -71,6 +69,7 @@ export class Aircraft {
             this.flights = [];
         }
         this.flights.pop();
+        this.calcUtilisation();
     }
 
     getTotalFlightsTime(): number {
@@ -84,24 +83,14 @@ export class Aircraft {
             flightTime += flight.duration;
         });
 
-        return flightTime;
+        return Math.round(flightTime);
     }
 
     calcUtilisation() {
-        const secondsInDay: number = 96400; 
+        if(!this.hasFlights()) {
+            return;
+        }
         const flightTime: number = this.getTotalFlightsTime();
-        this.utilisation = ((flightTime * 100)/secondsInDay);
-    }
-
-    chekAircraftBeingUsed(time: string): boolean {
-        return false;
-        // if(!this.flights || this.flights.length <= 0) {
-        //     return false;
-        // }
-
-        // this.flights.forEach(flight => {
-        //     flightTime += flight.getFlightDuration();
-        // });
-
+        this.utilisation = Math.round(((flightTime * 100)/Constants.SecondsInDay));
     }
 }

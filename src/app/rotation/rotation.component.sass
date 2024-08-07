@@ -10,12 +10,18 @@
     overflow-y: auto
     @include scrollbar()
 
-.noAircraftSelected
-    display: flex
+    &.noAircraftSelected
+        list-style-type: decimal !important
+
+.mainListUsage
+    width: fit-content
+    margin: auto
+    margin-top: 30px
 
 .mainListWarning
     text-align: center
     margin: auto
+    margin-top: 30px
 
 .mainListItem
     border-bottom: 1px solid #9496a1
@@ -66,3 +72,17 @@
         &:hover
             color: darkred
             cursor: pointer
+
+.saveButton
+    font-size: 20px
+    border: none
+    color: blue
+    background-color: transparent
+    position: absolute
+    left: 66%
+    &:hover
+        color: darkblue
+        cursor: pointer
+
+    &.clear
+        left: 68%

@@ -2,16 +2,19 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Aircraft } from '../shared/classes/aircraft';
 import { Flight } from '../shared/classes/flight';
+import { AircraftTimelineComponent } from "../aircraft-timeline/aircraft-timeline.component";
 
 @Component({
   selector: 'app-rotation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AircraftTimelineComponent],
   templateUrl: './rotation.component.html',
   styleUrl: './rotation.component.sass'
 })
 export class RotationComponent {
   @Output() removeFlight = new EventEmitter();
+  @Output() saveScheduleLocalStorage = new EventEmitter();
+  @Output() clearScheduleLocalStorage = new EventEmitter();
   
   @Input() aircraft!: Aircraft;
 
@@ -57,5 +60,13 @@ export class RotationComponent {
 
   removeFlightFromRotation() {
     this.removeFlight.emit();
+  }
+
+  saveSchedule() {
+    this.saveScheduleLocalStorage.emit();
+  }
+
+  clearSchedule() {
+    this.clearScheduleLocalStorage.emit();
   }
 }

@@ -9,6 +9,7 @@ export class Flight {
     destination: string;
     duration: number;
     readable_duration: string;
+    selected: boolean;
 
     constructor(id?: number, ident?: string, departuretime?: number, arrivaltime?: number, origin?: string, destination?: string, readable_departure?: string, readable_arrival?: string) {
         this.id = (id ? id : 0);
@@ -21,6 +22,7 @@ export class Flight {
         this.readable_arrival = (readable_arrival ? readable_arrival : "");
         this.duration = 0;
         this.readable_duration = "";
+        this.selected = false;
         this.setFlightDuration();
     }
 

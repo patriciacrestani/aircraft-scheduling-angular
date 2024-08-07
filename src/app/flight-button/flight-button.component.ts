@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Flight } from '../shared/classes/flight';
 import { Aircraft } from '../shared/classes/aircraft';
+import { Constants } from '../shared/classes/constants';
 
 @Component({
   selector: 'app-flight-button',
@@ -19,7 +20,6 @@ export class FlightButtonComponent {
   constructor() { }
 
   addFlightToAircraftRotation() {
-    console.log(this.flight);
     this.addFlight.emit(this.flight);
   }
 
@@ -50,9 +50,7 @@ export class FlightButtonComponent {
       return true;
     }
 
-    const intervalDuration = 1200; // 20 minutes
-
-    return(!!this.selectedAircraft.lastFlightInRotation && this.checkFlightIsAfterLast() && ((this.flight.departuretime - this.selectedAircraft.lastFlightInRotation.arrivaltime) > intervalDuration));
+    return(!!this.selectedAircraft.lastFlightInRotation && this.checkFlightIsAfterLast() && ((this.flight.departuretime - this.selectedAircraft.lastFlightInRotation.arrivaltime) > Constants.IntervalDuration));
   }
 
   checkFlightIsAfterLast(): boolean {

@@ -5,19 +5,20 @@ import { Aircraft } from '../classes/aircraft';
   providedIn: 'root'
 })
 export class LocalStorageService {
-  static readonly localStorageKey = "AircraftRotation";
+  static readonly localStorageKey = "Schedule";
 
   constructor() { }
 
-  saveRotation(value: string): void {
-    localStorage.setItem(LocalStorageService.localStorageKey, value);
+  saveSchedule(value: Aircraft[]): void {
+    localStorage.setItem(LocalStorageService.localStorageKey, JSON.stringify(value));
   }
 
-  getRotation(): any {
-    return localStorage.getItem(LocalStorageService.localStorageKey);
+  getSchedule(): any {
+    let item = localStorage.getItem(LocalStorageService.localStorageKey);
+    return (item ? JSON.parse(item) : null);
   }
 
-  removeRotation(): void {
+  removeSchedule(): void {
     localStorage.removeItem(LocalStorageService.localStorageKey);
   }
 

@@ -1,15 +1,28 @@
 <h2>{{ tomorrow.getDate() }}{{ getDay() }} {{ tomorrow | date:"LLLL" }} {{ tomorrow | date:"yyyy" }}</h2>
 
-<h3>{{ tomorrow | date:"EEEE" }}</h3>
+<h3>
+        {{ tomorrow | date:"EEEE" }} 
+    <button class="saveButton clear" (click)="clearSchedule()" title="Clear schedule">
+        <i class="fa-regular fa-trash-can"></i>
+    </button>
+
+    <button class="saveButton" (click)="saveSchedule()" title="Save schedule">
+        <i class="fa-regular fa-floppy-disk"></i>
+    </button>
+</h3>
 
 <h4 *ngIf="showNoAircraftSelected()">No aircraft selected</h4>
 
 <h4 *ngIf="!showNoAircraftSelected()">Rotation {{ aircraft.ident }}</h4>
 
-<ul class="mainList" [ngClass]="{noAircraftSelected: (showNoAircraftSelected() || showNoFlightsForAircraft())}">
-    <ng-container *ngIf="showNoAircraftSelected()">
-        <p class="mainListWarning">Select an aircraft to proceed</p>
-    </ng-container>
+<ol class="mainList noAircraftSelected" *ngIf="showNoAircraftSelected()">
+    <li class="mainListUsage">Select an aircraft to start creating tomorrow's schedule</li>
+    <li class="mainListUsage">Select which flights will be a part of that aircraft schedule</li>
+    <li class="mainListUsage">Save the changes you make on the <i class="fa-regular fa-floppy-disk"></i> button</li>
+    <li class="mainListUsage">To reset the schedule, click on the <i class="fa-solid fa-rotate-left"></i> button</li>
+</ol>
+
+<ul class="mainList" *ngIf="showNoFlightsForAircraft() || showFlightsForAircraft()">
     
     <ng-container *ngIf="showNoFlightsForAircraft()">
         <p class="mainListWarning">No flights have been set for this aircraft</p>
@@ -49,3 +62,9 @@
         </li>
     </ng-container>
 </ul>
+
+<app-aircraft-timeline
+    *ngIf="!showNoAircraftSelected()"
+    [aircraft]="aircraft"
+    [flights]="aircraft.flights"
+></app-aircraft-timeline>
